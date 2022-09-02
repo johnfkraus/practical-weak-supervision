@@ -1,0 +1,27 @@
+
+created env using Anaconda Navigator and env.yml file.
+
+
+ResolvePackageNotFound: 
+- pywinpty=0.5.7
+- vc=14.2
+- m2w64-gcc-libs-core=5.3.0
+- wincertstore=0.2
+- m2w64-gcc-libs=5.3.0
+- m2w64-libwinpthread-git=5.0.0.4634.697f757
+- pywin32=227
+- winpty=0.4.3
+- msys2-conda-epoch=20160418
+- m2w64-gmp=6.1.0
+- vs2015_runtime=14.27.29016
+- m2w64-gcc-libgfortran=5.3.0
+- icc_rt=2019.0.0
+
+
+Remove builds from conda env.yml files:
+
+sed 's/\(.*[[:alnum:]]\)=[[:alnum:]][[:alnum:].-_]*/\1/' environment-with-builds.yml > env.yml
+
+sed 's/\(.*[[:alnum:]]\)=[[:alnum:]][[:alnum:].-_]*/\1/' environment_ch02_augment.yml > env_augment.yml
+
+Then install...???

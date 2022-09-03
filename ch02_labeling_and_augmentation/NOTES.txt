@@ -25,3 +25,26 @@ sed 's/\(.*[[:alnum:]]\)=[[:alnum:]][[:alnum:].-_]*/\1/' environment-with-builds
 sed 's/\(.*[[:alnum:]]\)=[[:alnum:]][[:alnum:].-_]*/\1/' environment_ch02_augment.yml > env_augment.yml
 
 Then install...???
+
+
+
+
+conda env update --file environment_ch02_augment.yml --name GPT2
+
+Solving environment: failed
+
+ResolvePackageNotFound: 
+  - m2w64-gcc-libgfortran==5.3.0=6
+  - libsodium==1.0.18=h62dcd97_0
+  .....
+
+sed 's/\(.*[[:alnum:]]\)=[[:alnum:]][[:alnum:].-_]*/\1/' environment_ch02_augment.yml > env_augment.yml
+
+conda env update --file env_augment.yml --name GPT2
+
+st unistall tensorflow
+
+pip uninstall tensorflow
+then install 1.13.2 version
+
+pip install tensorflow==1.13.2

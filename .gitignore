@@ -86,3 +86,5 @@ ecs_notebooks/test_output.csv
 #/ecs_sample_data/*
 #!/ecs_sample_data/pcap/netresec.com/network-forensics/2015-03-05
 
+ch02_labeling_and_augmentation/gpt-2/
+

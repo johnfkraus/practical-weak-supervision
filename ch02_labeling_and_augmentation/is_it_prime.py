@@ -35,8 +35,7 @@ def prime_factors(n):
 
 
 def array_map(x):
-    return np.array(list(map(is_prime, x)))
-
+    return np.array(list(map(is_prime_int, x)))
 
 
 def is_prime(n):
@@ -45,6 +44,7 @@ def is_prime(n):
 
 
 def is_prime_int(n):
+    """ Given an integer n returns 1 for prime, 0 for non-prime.  """
     # see http://www.noulakaz.net/weblog/2007/03/18/a-regular-expression-to-check-for-prime-numbers/
     # print(n, re.match(r'^1?$|^(11+?)\1+$', '1' * n) == None)
     return 1 if re.match(r'^1?$|^(11+?)\1+$', '1' * n) == None else 0
@@ -93,10 +93,8 @@ def make_prime_list(num_primes):
         is_prime = is_prime_int(n)
         if is_prime:
             inner_list = [n, 1]     
-            # inner_list = inner_list + [1]
         else:
             inner_list = [n, 0] 
-            # inner_list = inner_list + [0]
         outer_prime_list.append(inner_list)
     return outer_prime_list
 

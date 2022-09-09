@@ -107,16 +107,13 @@ def make_primes_df(num_primes):
     return df
 
 
-def make_list_of_num_and_labels():
-    nums = list(range(0,200))
-    labels = [0] * 200
+def make_list_of_num_and_labels(start_num, end_num):
+    nums = list(range(start_num, end_num))
+    labels = [0] * end_num
     for num in nums:
         labels[num] = is_prime_int(num)            
-        # print(num, labels[num])
         
     return nums, labels
-
-
 
 
 if __name__ == "__main__":
@@ -126,4 +123,4 @@ if __name__ == "__main__":
     # m = array_map(validation)
     # print(m)
     # print(make_primes_df(200))
-    make_list_of_num_and_labels()
+    make_list_of_num_and_labels(0, 200)

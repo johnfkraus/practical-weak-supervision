@@ -1,7 +1,18 @@
+"""
+This module contains various utility functions that can be used in Jupyter notebooks to help deal with prime numbers in connection with a data labeling example in Chapter 2 of the Practical Weak Supervision book.  Not all the code here is actually being used, so some pruning might be appropriate as time permits.
+"""
+
 from math import sqrt
 import numpy as np
 import re, sys
 import pandas as pd
+import collections
+
+__author__ = "John Kraus"
+__email__ = "john.f.kraus19.ctr@mail.mil"
+__status__ = "Development"
+__version__ = "0.0.1"
+
 
 def is_prime(n):    
     # this flag maintains status whether the n is prime or not
@@ -75,16 +86,12 @@ def get_primes_in_first_n_integers(top):
     return l      
 
 
-# if __name__ = "__main__":
 def get_prime_to_integer_ratios():
     for n in range(100, 1000, 50):
-    #n = 103
         n_prime_list = get_n_primes(n)
         npl_ratio = len(n_prime_list)/ n_prime_list[-1]
         print(n_prime_list[-1], len(n_prime_list), npl_ratio)  #, n_prime_list)
 
-# prime_list_up_to_n = get_primes_in_first_n_integers(100)
-# print('len =', len(prime_list_up_to_n), prime_list_up_to_n)
 
 def make_prime_list(num_primes):
     outer_prime_list = list()
@@ -114,11 +121,23 @@ def make_list_of_num_and_labels(start_num, end_num):
     return nums, labels
 
 
+def test_return_prime_factors(n=360):
+    pfs = prime_factors(n)
+    assert any(x <= 1 for x in pfs) == False
+    assert (is_prime(x) for x in pfs)
+    assert np.prod(pfs) == n
+    if n == 360:
+        expected = list([2, 5, 2, 3, 3, 2])
+        print(expected)
+        assert len(pfs) == len(expected)
+        # Do the two lists contain the same prime factors regardless of order?
+        assert collections.Counter(pfs) == collections.Counter(expected)
+
+    print("PASS test_return_prime_factors(", n, ")")
+
+
 if __name__ == "__main__":
-    # for n in range(11):
-    #     print(n, is_prime(n), prime_factors(n))
-    # validation = [22, 11, 7, 2, 32, 101, 102]
-    # m = array_map(validation)
-    # print(m)
-    # print(make_primes_df(200))
+    """ Run some tests. """
+    test_return_prime_factors()
+    test_return_prime_factors(111)
     make_list_of_num_and_labels(0, 200)

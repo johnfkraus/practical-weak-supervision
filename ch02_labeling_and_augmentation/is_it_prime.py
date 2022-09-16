@@ -4,7 +4,7 @@ This module contains various utility functions that can be used in Jupyter noteb
 
 from math import sqrt
 import numpy as np
-import re, sys
+import re
 import pandas as pd
 import collections
 
@@ -32,6 +32,7 @@ def is_prime(n):
 
 
 def prime_factors(n):
+    """"Given an integer, returns a list of its prime factors."""
     i = 2
     factors = []
     while i * i <= n:
@@ -62,12 +63,9 @@ def is_prime_int(n):
 
 
 def get_n_primes(n):
-
-    # N = int(sys.argv[1]) # number of primes wanted (from command-line)
     N = n  # 200  # int(sys.argv[1]) # number of primes wanted (from command-line)
     M = 100             # upper-bound of search space (we search 100 consecutive integers at a time)
     l = list()           # result list
-
     while len(l) < N:    
         l += filter(is_prime, range(M - 100, M)) # append prime element of [M - 100, M] to l
         # l += filter(isPrime, range(0, M)) # append prime element of [M - 100, M] to l
@@ -92,6 +90,18 @@ def get_prime_to_integer_ratios():
         npl_ratio = len(n_prime_list)/ n_prime_list[-1]
         print(n_prime_list[-1], len(n_prime_list), npl_ratio)  #, n_prime_list)
 
+import math
+
+def prob_rand_int_less_than_n_is_prime(n):
+    """According to the prime number theorem for large enough N, the probability that a random integer not greater than N is prime is very close to 1 / log(N).   https://en.wikipedia.org/wiki/Prime_number_theorem"""
+    return 1 / math.log(n)
+
+
+def prime_counting_function(n):
+    """ number of primes less than or equal to n; https://en.wikipedia.org/wiki/Prime_number_theorem """
+    return n / math.log(n)
+
+
 
 def make_prime_list(num_primes):
     outer_prime_list = list()
@@ -107,12 +117,14 @@ def make_prime_list(num_primes):
 
 
 def make_primes_df(num_primes):
+    """ Return a DataFrame with n=num_primes integers in one column and prime=1 or non-prime=0 in the second column. """
     prime_list = make_prime_list(num_primes)
     df = pd.DataFrame(prime_list, columns =['Number', 'ground_truth'])     
     return df
 
 
-def make_list_of_num_and_labels(start_num, end_num):
+def make_list_of_ints_and_prime_labels(start_num, end_num):
+    """ return two lists: nums = [0,0,1,3,...] and labels = [0,0,1,1,...] where label 0 means non-prime and 1 means prime. """
     nums = list(range(start_num, end_num))
     labels = [0] * end_num
     for num in nums:
@@ -123,8 +135,11 @@ def make_list_of_num_and_labels(start_num, end_num):
 
 def test_return_prime_factors(n=360):
     pfs = prime_factors(n)
-    assert any(x <= 1 for x in pfs) == False
+    # No integer less than 2 should be a prime factor.
+    assert any(x < 2 for x in pfs) == False
+    # All factors should be prime numbers.
     assert (is_prime(x) for x in pfs)
+    # The product of all the prime factors should equal n.
     assert np.prod(pfs) == n
     if n == 360:
         expected = list([2, 5, 2, 3, 3, 2])
@@ -136,8 +151,27 @@ def test_return_prime_factors(n=360):
     print("PASS test_return_prime_factors(", n, ")")
 
 
-if __name__ == "__main__":
-    """ Run some tests. """
+def test():
     test_return_prime_factors()
     test_return_prime_factors(111)
-    make_list_of_num_and_labels(0, 200)
+
+
+
+def demo():
+    print(make_list_of_ints_and_prime_labels(0, 200))
+    # get_prime_to_integer_ratios()
+    print(prob_rand_int_less_than_n_is_prime(10000000))
+    print(prime_counting_function(10000000))
+    print(make_primes_df(11))
+
+
+if __name__ == "__main__":
+    """ Run some tests. """
+    test()
+    demo()
+    # test_return_prime_factors()
+    # test_return_prime_factors(111)
+    # make_list_of_num_and_labels(0, 200)
+    # get_prime_to_integer_ratios()
+    # print(prob_rand_int_less_than_n_is_prime(10000000))
+    # print(prime_counting_function(10000000))

@@ -81,9 +81,11 @@ notebooks/test_output.csv
 snippets
 
 scripts/
-ecs_notebooks/test_output.csv
 
-#/ecs_sample_data/*
-#!/ecs_sample_data/pcap/netresec.com/network-forensics/2015-03-05
+PersonalInfo
+archives
+numbers
 
-ch02_labeling_and_augmentation/gpt-2/
+requirements.txt
+
+carlist.pkl

@@ -2,33 +2,55 @@
 This module contains various utility functions that can be used in Jupyter notebooks to help deal with prime numbers in connection with a data labeling example in Chapter 2 of the Practical Weak Supervision book.  Not all the code here is actually being used, so some pruning might be appropriate as time permits.
 """
 
-from math import sqrt
+import math
+#  from math import sqrt
 import numpy as np
 import re
 import pandas as pd
 import collections
+# import timing
+# from decorators import timer
+# from gtimer_decorator import timer_func
+from time import time
 
 __author__ = "John Kraus"
 __email__ = "john.f.kraus19.ctr@mail.mil"
 __status__ = "Development"
 __version__ = "0.0.1"
 
+  
+def timer_func(func):
+    # Print the execution time of the passed function object
+    def wrap_func(*args, **kwargs):
+        t1 = time()
+        result = func(*args, **kwargs)
+        t2 = time()
+        print(f'Function {func.__name__!r} executed in {(t2-t1):.4f}s')
+        return result
+    return wrap_func
 
-def is_prime(n):    
+
+
+#@timer_func
+def is_prime(n):
     # this flag maintains status whether the n is prime or not
+    if n is None:
+        raise ValueError("is_prime(n) requires non-null parameter.")
     prime_flag = 0
-    if(n > 1):
-        for i in range(2, int(sqrt(n)) + 1):
-            if (n % i == 0):
-                prime_flag = 1
-                break
-        if (prime_flag == 0):
-            return 1  # True  # print("True")
+    try:
+        if(n > 1):
+            for i in range(2, int(math.sqrt(n)) + 1):
+                if (n % i == 0):
+                    prime_flag = 1
+                    break
+            if (prime_flag == 0):
+                return 1 
+            else:
+                return 0
         else:
-            return 0   #False
-            # print("False")
-    else:
-        return 0  # False  # print("False")
+            return 0
+    except ValueError as e:
+        print("exception", str(e))
 
 
 def prime_factors(n):
@@ -90,7 +112,6 @@ def get_prime_to_integer_ratios():
         npl_ratio = len(n_prime_list)/ n_prime_list[-1]
         print(n_prime_list[-1], len(n_prime_list), npl_ratio)  #, n_prime_list)
 
-import math
 
 def prob_rand_int_less_than_n_is_prime(n):
     """According to the prime number theorem for large enough N, the probability that a random integer not greater than N is prime is very close to 1 / log(N).   https://en.wikipedia.org/wiki/Prime_number_theorem"""
@@ -156,7 +177,6 @@ def test():
     test_return_prime_factors(111)
 
 
-
 def demo():
     print(make_list_of_ints_and_prime_labels(0, 200))
     # get_prime_to_integer_ratios()
@@ -169,9 +189,15 @@ if __name__ == "__main__":
     """ Run some tests. """
     test()
     demo()
-    # test_return_prime_factors()
-    # test_return_prime_factors(111)
-    # make_list_of_num_and_labels(0, 200)
-    # get_prime_to_integer_ratios()
-    # print(prob_rand_int_less_than_n_is_prime(10000000))
-    # print(prime_counting_function(10000000))
+    is_prime_with_timer = timer_func(is_prime)
+    
+    print(is_prime_with_timer(83))  #  True, Function 'is_prime' executed in 0.0002s
+
+    # print(is_prime_with_timer(998077))  #  True, Function 'is_prime' executed in 246.2196s
+    
+    
+    big_int = 797421915493860356140028996109826257509243069764668430517233998159752495771749751540427498177503816731916148527883659572687040623351311710753167207791930031079587803266286682404595676276042945084541365179468552061417684453547762289380306912014285651033639519236303675743058069222633073153462634860981
+    
+    
+    print(is_prime_with_timer(big_int))  # OverflowError: cannot fit 'int' into an index-sized integer
+    
